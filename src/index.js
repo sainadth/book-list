@@ -2,15 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 
+import { BooksArray } from "./books";
+import Book from "./Book";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const BookList = () => {
+/* const BookList = () => {
   return (
     <section className="bookList">
       <Book
-        imgSource="https://m.media-amazon.com/images/I/71b4j+Y13-L._AC_CR0%2C0%2C0%2C0_SX480_SY360_.jpg"
-        title="1947-1957, India: The Birth of a Republic"
-        author="Chandrachur Ghose"
+        imgSource={book.imgSource} title={book.title} author={book.author}="Chandrachur Ghose"
       />
       <Book
         imgSource="https://m.media-amazon.com/images/I/71yyYizBrmL._AC_CR0%2C0%2C0%2C0_SX480_SY360_.jpg"
@@ -24,11 +25,7 @@ const BookList = () => {
       />
     </section>
   );
-};
-
-const Image = (params) => {
-  return <img src={params.src} alt="" className="bookImage" />;
-};
+}; */
 
 /* const Title = () => {
   return (
@@ -49,8 +46,6 @@ const Image = (params) => {
     </article>
   );
 }; */
-
-root.render(<BookList />);
 
 /* CSS */
 
@@ -80,7 +75,6 @@ const JSObjStyle = () => {
     </h4>
   );
 };
-
 <JSObjStyle />;
 
 /* JSX */
@@ -96,22 +90,125 @@ const JSObjStyle = () => {
 
 /* PROPS */
 
-const Book = (props) => {
+/* Using Arrays */
+/*
+const names = ["Vito Corleone", "Santino Corleone", "Micheal Corleone"];
+
+root.render(names);
+
+const nameComponents = names.map((name) => {
+  return <h1>{name}</h1>;
+});
+
+console.log(nameComponents);
+root.render(nameComponents); */
+
+/* 
+error in console 
+react-dom.development.js:86 
+ Warning: Each child in a list should have a unique "key" prop. See https://reactjs.org/link/warning-keys for more information.
+printWarning	@	react-dom.development.js:86
+error	@	react-dom.development.js:60
+warnForMissingKey	@	react-dom.development.js:14796
+warnOnInvalidKey	@	react-dom.development.js:15275
+reconcileChildrenArray	@	react-dom.development.js:15330
+reconcileChildFibers	@	react-dom.development.js:15821
+reconcileChildren	@	react-dom.development.js:19174
+updateHostRoot	@	react-dom.development.js:19883
+beginWork	@	react-dom.development.js:21615
+beginWork$1	@	react-dom.development.js:27426
+performUnitOfWork	@	react-dom.development.js:26557
+workLoopSync	@	react-dom.development.js:26466
+renderRootSync	@	react-dom.development.js:26434
+performConcurrentWorkOnRoot	@	react-dom.development.js:25738
+workLoop	@	scheduler.development.js:266
+flushWork	@	scheduler.development.js:239
+performWorkUntilDeadline	@	scheduler.development.js:533
+*/
+
+// const FormComponents = (props) => {
+//   let heading = "Form";
+//   let formInput = "";
+//   const handleFormInput = (event) => {
+//     console.log("handling form input");
+//     formInput = event.target.value;
+//     console.log(formInput);
+//   };
+
+//   /* const handleButtonClick = (e) => {
+//     console.log(e);
+//     alert("handling button click");
+//   };
+
+//   const handleFormSubmit = (formSubmitEvent) => {
+//     console.log(formSubmitEvent);
+//     formSubmitEvent.preventDefault();
+//     console.log("handle form submit");
+//   }; */
+//   return (
+//     <section style={{ margin: "4rem" }}>
+//       <form action="">
+//         <h2>{heading}</h2>
+//         <input
+//           type="text"
+//           id="formInput"
+//           style={{ margin: "1rem 0" }}
+//           onChange={handleFormInput}
+//         />
+//       </form>
+//       <button onClick={handleFormInput}>Find</button>
+//     </section>
+//   );
+// };
+
+const BooksComponents = () => {
+  const getBookId = (id) => {
+    const book = BooksArray.find((book) => {
+      return id === book.id;
+    });
+    console.log(book.title);
+  };
   return (
-    <article className="book">
-      <Image src={props.imgSource} />
-      <Title title={props.title} />
-      <Author author={props.author} />
-    </article>
+    <>
+      {/* <FormComponents /> */}
+      <h1 className="title">Amazon Best Sellers</h1>
+      <section className="bookList">
+        {BooksArray.map((book) => {
+          const { imgSource, title, author, id } = book;
+          return (
+            <Book
+              imgSource={imgSource}
+              title={title}
+              author={author}
+              id={id}
+              key={id}
+              getBookId={getBookId}
+            />
+          );
+        })}
+      </section>
+    </>
   );
 };
 
-const Title = (props) => {
-  return <h3 className="bookTitle">{props.title}</h3>;
-};
+/* 
+  CALLING PARENTS METHODS IN CHILD
+  pass method reference in props
+  1. use ambiguous function
+    () => method_name(params)
+  2. create a method in child
+    const child_method = () => {
+      parent_method(params)
+    }
+*/
 
-const Author = (props) => {
-  return <h4 className="bookAuthor">{props.author}</h4>;
-};
+/* EXPORT
+    1. Default Export   
+        default export <NAME>
+        import {<ANY NAME>} from FILE
+    2. Normal Export
+        export <NAME>
+        import {<NAME>} from FILE
+*/
 
-/* Using Arrays */
+root.render(<BooksComponents />);
